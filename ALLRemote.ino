@@ -113,8 +113,8 @@ void setup() {
     SD.mkdir("/surveys");
     Serial.println("surveys directory created");
   }  
-  sdroot = SD.open("/surveys");
- 
+  
+  //newSurvey(SD); //it works here
   mainDisplay();
 
 }
@@ -130,14 +130,6 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
 
 void loop() {
 
-  if(sdWrite)
-  { 
-    Serial.println("Made it back to main loop, writing new Survey..");
-    delay(1000);
-    newSurvey(SD);
-    sdWrite = false;
-    mainDisplay();
-  }
 
   M5.Lcd.setBrightness(0);
   while (butn == NONE)

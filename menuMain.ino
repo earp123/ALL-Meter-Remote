@@ -83,11 +83,6 @@ void mainMenu()
   int display_time = millis();
   while((millis() - display_time) < (MENU_TIMEOUT_S*1000))
   {
-    if(sdWrite)
-    {
-      Serial.println("Going back to Main Display loop");
-      return; // head back to main loop for sd writes
-    }
     switch(butn){
       case ABUTN:
         butn = NONE;
@@ -122,7 +117,7 @@ void mainMenu()
         else if (menu_idx == 2){//FS MENU
           M5.Lcd.clear();
           FSmenu();
-          Serial.println("Made it back to main menu");
+          
           
         }
         else if (menu_idx == 1){//TIME ZONE MENU

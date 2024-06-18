@@ -108,11 +108,7 @@ void mainDisplay()
   int display_time = millis();
   while((millis() - display_time) < (MAIN_DISPLAY_TIMEOUT_S*1000))
   {
-    if (sdWrite)
-    {
-      Serial.println("Heading back to main loop");
-      return;
-    }
+
     String prg_bar = "";
     switch(butn){
       case ABUTN:
@@ -149,17 +145,20 @@ void mainDisplay()
             prg_bar += " ";
             delay(1000);
           }
-          if (logPoint(SD, currentLogFilePath, incoming_p.lux, incoming_p.latit, incoming_p.longit))
-          {
-            //success
-            Serial.println("File written to");
-          }
-          else
-          {
-            //failed
-            Serial.println("Failed to write");
-          }
         }
+        
+        if (logPoint(SD, currentLogFilePath, incoming_p.lux, incoming_p.latit, incoming_p.longit))
+        {
+          //success
+          Serial.println("File written to");
+        }
+        else
+        {
+          //failed
+          Serial.println("Failed to write");
+        }
+        
+        
         display_time = millis();
         break;
 

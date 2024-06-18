@@ -122,7 +122,7 @@ void updateFSmenu(int index)
 
 void FSmenu()
 {
-   int menu_idx = 1;
+  int menu_idx = 1;
 
   updateFSmenu(menu_idx);
 
@@ -163,8 +163,7 @@ void FSmenu()
         }
         else if (menu_idx == 1){//NEW
           M5.Lcd.clear();
-          sdWrite = true;
-          return; //back to better thread context
+          newSurvey(SD);//doesn't work here
         }
 
         break;
