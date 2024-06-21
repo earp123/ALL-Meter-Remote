@@ -28,10 +28,6 @@ enum buttonPress {
   ABUTN, BBUTN, CBUTN, NONE
 };
 
-enum menus {
-  MN_DISPLAY, MN_MENU, FS_MENU
-};
-
 buttonPress butn = NONE;
 
 void IRAM_ATTR Apress() {
