@@ -108,15 +108,17 @@ void mainMenu()
         }
         else if (menu_idx == 4){//RX MENU
           //M5.Lcd.clear();
-          //TODO
+          //TODO Maya
+          
         }
         else if (menu_idx == 3){//VEML7700 
           //M5.Lcd.clear();
-          //TODO
+          //TODO Maya
+          //menuVEML();
         }
         else if (menu_idx == 2){//FS MENU
-          M5.Lcd.clear();
-          FSmenu();
+          //M5.Lcd.clear();
+          //FSmenu();
           
           
         }
