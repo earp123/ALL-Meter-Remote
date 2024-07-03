@@ -2,6 +2,7 @@
 #include <WiFi.h>
 #include <SD.h>
 #include "FS.h"
+#include <Preferences.h>
 
 #include <M5Unified.h>
 #include "remote_packet.h"
@@ -9,8 +10,11 @@
 #define CHANNEL 1
 #define MENU_TIMEOUT_S 10
 
-volatile int GMToffset;
-volatile int surveyIdx = 1;
+Preferences preferences;
+int GMToffset;
+const char* timeZoneKey = "GMTset";
+const char* newSurveyKey = "newSurvey";
+int surveyIdx = 1;
 bool connected = false;
 int lastPacket_s = 101;
 
@@ -73,6 +77,19 @@ void setup() {
   M5.Power.begin();
   M5.Rtc.begin();
   Serial.begin(115200);
+  preferences.begin("settings");
+
+  if (!SD.begin(4, SPI, 4000000)) {  
+    M5.Lcd.println("Card failed, or not present");
+    delay(500);
+    ESP.restart();
+  }
+
+  if(preferences.getBool(newSurveyKey))
+  {
+    newSurvey(SD);
+    preferences.putBool(newSurveyKey, false);
+  }
 
   attachInterrupt(39, Apress, FALLING);
   attachInterrupt(38, Bpress, FALLING);
@@ -96,12 +113,6 @@ void setup() {
   if (result != ESP_OK)
   {
     Serial.println("Failed to add peer");
-  }
-
-  if (!SD.begin(4)) {  
-    M5.Lcd.println("Card failed, or not present");
-    while (1)
-        ;
   }
 
   if (!SD.exists("/surveys"))

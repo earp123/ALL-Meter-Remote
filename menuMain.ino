@@ -3,6 +3,7 @@ static void updateMenu(int index)
   
   M5.Lcd.setCursor(0,0);
   M5.Lcd.setTextSize(3);
+  
 
   if (index == 1) M5.Lcd.setTextColor(BLACK, WHITE);//Highlight the current selection
   else            M5.Lcd.setTextColor(WHITE, BLACK);
@@ -88,7 +89,7 @@ void mainMenu()
         butn = NONE;
         menu_idx++;
         if (menu_idx>5) menu_idx = 1;
-        M5.Lcd.clear();
+        M5.Display.clear();
         updateMenu(menu_idx);
         display_time = millis();
         break;
@@ -97,7 +98,6 @@ void mainMenu()
         butn = NONE;
         menu_idx--;
         if (menu_idx<1) menu_idx = 5;
-        M5.Lcd.clear();
         updateMenu(menu_idx);
         display_time = millis();
         break;
@@ -105,7 +105,6 @@ void mainMenu()
       case CBUTN:
         butn = NONE;
         if (menu_idx == 5){//BACK
-          M5.Lcd.clear();
           mainDisplay();
         }
         else if (menu_idx == 4){//RX MENU
@@ -119,13 +118,8 @@ void mainMenu()
           //menuVEML();
         }
         else if (menu_idx == 2){//FS MENU
-<<<<<<< Updated upstream
-          //M5.Lcd.clear();
-=======
           M5.Lcd.clear();
->>>>>>> Stashed changes
-          //FSmenu();
-          
+          FSmenu();          
           
         }
         else if (menu_idx == 1){//TIME ZONE MENU
