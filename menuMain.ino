@@ -88,6 +88,7 @@ void mainMenu()
         butn = NONE;
         menu_idx++;
         if (menu_idx>5) menu_idx = 1;
+        M5.Lcd.clear();
         updateMenu(menu_idx);
         display_time = millis();
         break;
@@ -96,6 +97,7 @@ void mainMenu()
         butn = NONE;
         menu_idx--;
         if (menu_idx<1) menu_idx = 5;
+        M5.Lcd.clear();
         updateMenu(menu_idx);
         display_time = millis();
         break;
@@ -117,7 +119,11 @@ void mainMenu()
           //menuVEML();
         }
         else if (menu_idx == 2){//FS MENU
+<<<<<<< Updated upstream
           //M5.Lcd.clear();
+=======
+          M5.Lcd.clear();
+>>>>>>> Stashed changes
           //FSmenu();
           
           

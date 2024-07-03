@@ -147,7 +147,7 @@ void mainDisplay()
           }
         }
         
-        if (logPoint(SD, currentLogFilePath, incoming_p.lux, incoming_p.latit, incoming_p.longit))
+        if (logPoint(SD, "/surveys/Survey1.csv", incoming_p.lux, incoming_p.latit, incoming_p.longit))
         {
           //success
           Serial.println("File written to");

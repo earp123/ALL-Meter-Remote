@@ -98,7 +98,7 @@ void setup() {
     Serial.println("Failed to add peer");
   }
 
-  if (!SD.begin(4, SPI, 4000000)) {  
+  if (!SD.begin(4)) {  
     M5.Lcd.println("Card failed, or not present");
     while (1)
         ;

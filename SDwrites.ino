@@ -1,15 +1,15 @@
 void newSurvey(fs::FS &fs)
 {
-  String fileName = "/surveys/";
+  String fileName = "/surveys/Survey3.csv";
   
-  fileName.concat(incoming_p.month);
-  fileName.concat(incoming_p.day);
-  fileName.concat(incoming_p.year);
-  fileName.concat("_");
-  fileName.concat(incoming_p.hour);
-  fileName.concat(incoming_p.minute);
-  fileName.concat(".csv");
-  File newSurveyFile = fs.open(fileName, FILE_WRITE, true);
+  // fileName.concat(incoming_p.month);
+  // fileName.concat(incoming_p.day);
+  // fileName.concat(incoming_p.year);
+  // fileName.concat("_");
+  // fileName.concat(incoming_p.hour);
+  // fileName.concat(incoming_p.minute);
+  // fileName.concat(".csv");
+  File newSurveyFile = fs.open(fileName, FILE_WRITE);
   if (newSurveyFile)
   {
     currentLogFilePath = newSurveyFile.path();

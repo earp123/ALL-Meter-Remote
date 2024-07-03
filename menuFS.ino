@@ -95,6 +95,7 @@ void surveySelect(int fileOp)
           //fall through
         default: break;
       }
+      delay(20);
   }
 }
 
@@ -171,7 +172,7 @@ void FSmenu()
         //fall through
       default: break;
     }
-    delay(300);
+    delay(100);
   }
   M5.Lcd.clear();
 }
