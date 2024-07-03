@@ -1,14 +1,9 @@
 void newSurvey(fs::FS &fs)
 {
-  String fileName = "/surveys/Survey3.csv";
+  String fileName = "/surveys/Survey";
+  fileName.concat(surveyNum);
+  fileName.concat(".csv");
   
-  // fileName.concat(incoming_p.month);
-  // fileName.concat(incoming_p.day);
-  // fileName.concat(incoming_p.year);
-  // fileName.concat("_");
-  // fileName.concat(incoming_p.hour);
-  // fileName.concat(incoming_p.minute);
-  // fileName.concat(".csv");
   File newSurveyFile = fs.open(fileName, FILE_WRITE);
   if (newSurveyFile)
   {
@@ -21,6 +16,9 @@ void newSurvey(fs::FS &fs)
   else 
     Serial.println("Error creating file");
   newSurveyFile.close();
+  surveyNum++;
+  preferences.putInt(surveyNumKey, surveyNum);
+
 }
 
 bool logPoint(fs::FS &fs, String path, uint16_t luxVal, double latittude, double longitude){

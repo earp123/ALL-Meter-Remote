@@ -12,8 +12,11 @@
 
 Preferences preferences;
 int GMToffset;
-const char* timeZoneKey = "GMTset";
+const char* GMToffsetKey = "GMTset";
 const char* newSurveyKey = "newSurvey";
+const char* surveyNumKey = "surveyNumKey";
+
+int surveyNum = 1;
 int surveyIdx = 1;
 bool connected = false;
 int lastPacket_s = 101;
@@ -87,6 +90,7 @@ void setup() {
 
   if(preferences.getBool(newSurveyKey))
   {
+    surveyNum = preferences.getInt(surveyNumKey);
     newSurvey(SD);
     preferences.putBool(newSurveyKey, false);
   }
@@ -121,7 +125,7 @@ void setup() {
     Serial.println("surveys directory created");
   }  
   
-  //newSurvey(SD); //it works here
+  resumeSurvey(0);
   mainDisplay();
 
 }

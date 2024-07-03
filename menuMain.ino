@@ -64,6 +64,7 @@ void timeZoneSelect()
 
       case CBUTN:
         butn = NONE;
+        preferences.putInt(GMToffsetKey, GMToffset);
         mainMenu();
         break;
       case NONE:
@@ -105,6 +106,7 @@ void mainMenu()
       case CBUTN:
         butn = NONE;
         if (menu_idx == 5){//BACK
+          M5.Lcd.clear();
           mainDisplay();
         }
         else if (menu_idx == 4){//RX MENU
@@ -124,6 +126,7 @@ void mainMenu()
         }
         else if (menu_idx == 1){//TIME ZONE MENU
           M5.Lcd.clear();
+          GMToffset = preferences.getChar(GMToffsetKey);
           timeZoneSelect();
         }
 
