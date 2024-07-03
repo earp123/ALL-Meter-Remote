@@ -164,7 +164,8 @@ void FSmenu()
         }
         else if (menu_idx == 1){//NEW
           M5.Lcd.clear();
-          newSurvey(SD);//doesn't work here
+          preferences.putBool(newSurveyKey, true);
+          ESP.restart();
         }
 
         break;
