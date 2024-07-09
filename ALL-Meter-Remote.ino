@@ -15,9 +15,11 @@ int GMToffset;
 const char* GMToffsetKey = "GMTset";
 const char* newSurveyKey = "newSurvey";
 const char* surveyNumKey = "surveyNumKey";
+const char* footcandlesKey = "footcandles";
 
 int surveyNum = 1;
 int surveyIdx = 1;
+bool footcandles = true;
 bool connected = false;
 int lastPacket_s = 101;
 

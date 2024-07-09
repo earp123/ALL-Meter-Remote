@@ -70,8 +70,18 @@ static void updateMainDisplay()
   String display_lux = "Last: ";
   if (incoming_p.lux < 65535)
   {
-    display_lux += incoming_p.lux;
-    display_lux += " Lux";
+    if(footcandles)
+    {
+      float fc = incoming_p.lux / 10.764;
+      display_lux += fc;
+      display_lux += " Fc  ";
+    }
+    else
+    {
+      display_lux += incoming_p.lux;
+      display_lux += " Lux  ";
+    }
+    
   }
   else display_lux += "Unstable";
   init_label(10, 120, MAGENTA, BLACK, 3, display_lux);
@@ -122,17 +132,27 @@ void mainDisplay()
           }
           incoming_p.read_done = false;
           init_label(10, 120, YELLOW, BLACK, 3, "                ");
-        }
-        delay(300); //wait for it to get there
-        if(incoming_p.cmd_recvd)
-        {
-          while(!incoming_p.read_done)
+          delay(300); //wait for it to get there
+          if(incoming_p.cmd_recvd)
           {
-            //Rx is reading the VEML
-            delay(10);
+            int spinner = 0;
+            while(!incoming_p.read_done)
+            {
+              //Rx is reading the VEML
+              if(spinner == 0) init_label(10, 120, YELLOW, BLACK, 3, ".");
+              else M5.Lcd.print(".");
+              spinner++;
+              if (spinner >=6)
+              {
+                spinner = 0;
+                init_label(10, 120, YELLOW, BLACK, 3, "          ");
+              } 
+              delay(350);
+            }
           }
+          else Serial.println("Command wasn't received.");
         }
-        else Serial.println("Command wasn't received.");
+        
         display_time = millis();
         command_p.cmd = NO_CMD;
         break;
@@ -146,30 +166,39 @@ void mainDisplay()
           result = esp_now_send(rxMAC, (uint8_t*) &command_p, sizeof(command_p));
           incoming_p.read_done = false;
           init_label(10, 120, YELLOW, BLACK, 3, "                ");
-        }
-        delay(300); //wait for it to get there
-        if(incoming_p.cmd_recvd)
-        {
-          while(!incoming_p.read_done)
-          {
-            //Rx is reading the VEML
-            delay(10);
-          }
-          if (incoming_p.lux < 65535)
-          {
-            if (logPoint(SD, currentLogFilePath, incoming_p.lux, incoming_p.latit, incoming_p.longit))
-            {
-              Serial.println("File written to");
-            }
-            else
-            {
-              Serial.println("Failed to write");
-            }
-          }
-          else Serial.println("Measurement unstable - not logged");
-        }
-        else Serial.println("Command wasn't received.");
         
+          delay(300); //wait for it to get there
+          if(incoming_p.cmd_recvd)
+          {
+            int spinner = 0;
+            while(!incoming_p.read_done)
+            {
+              //Rx is reading the VEML
+              if(spinner == 0) init_label(10, 120, YELLOW, BLACK, 3, ".");
+              else M5.Lcd.print(".");
+              spinner++;
+              if (spinner >=6)
+              {
+                spinner = 0;
+                init_label(10, 120, YELLOW, BLACK, 3, "          ");
+              } 
+              delay(350);
+            }
+            if (incoming_p.lux < 65535)
+            {
+              if (logPoint(SD, currentLogFilePath, incoming_p.lux, incoming_p.latit, incoming_p.longit))
+              {
+                Serial.println("File written to");
+              }
+              else
+              {
+                Serial.println("Failed to write");
+              }
+            }
+            else Serial.println("Measurement unstable - not logged");
+          }
+          else Serial.println("Command wasn't received.");
+        }
         display_time = millis();
         command_p.cmd = NO_CMD;
         break;

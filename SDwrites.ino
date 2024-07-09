@@ -32,7 +32,7 @@ bool logPoint(fs::FS &fs, String path, uint16_t luxVal, double latittude, double
         Serial.println("Failed to open file for appending");
         return false;
     }
-    if(file.print(luxVal) && file.print(", ") && 
+    if(file.print((footcandles ? (luxVal/10.764) : luxVal)) && file.print(", ") && 
         file.print(latittude, 8) && file.print(", ") &&
         file.print(longitude, 8) && file.println()){
         Serial.println("Data Point Logged");
