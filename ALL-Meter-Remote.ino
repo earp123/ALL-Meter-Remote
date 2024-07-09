@@ -95,6 +95,8 @@ void setup() {
     preferences.putBool(newSurveyKey, false);
   }
 
+  GMToffset = preferences.getInt(GMToffsetKey);
+
   attachInterrupt(39, Apress, FALLING);
   attachInterrupt(38, Bpress, FALLING);
   attachInterrupt(37, Cpress, FALLING);

@@ -1,5 +1,5 @@
 struct remote_packet {
-  uint16_t lux = 45;
+  float lux = 45;
   uint8_t satsInView = 23;
   float horizAcc = 0.02;
   
@@ -17,15 +17,16 @@ struct remote_packet {
   int rxBatt = 9;
   
   bool read_done = true;
+  bool cmd_recvd = false;
     
 };
 enum rx_command {
-	LUX_READ, READ_DONE, PWR_OFF, VEML_PARAM
+	LUX_READ, NO_CMD, PWR_OFF, VEML_PARAM
 };
 
 struct rx_packet {
 	
-	rx_command cmd = READ_DONE;
+	rx_command cmd = NO_CMD;
 	
 	uint8_t data[32] = {0};
 };
