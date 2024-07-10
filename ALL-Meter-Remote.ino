@@ -14,11 +14,12 @@ Preferences preferences;
 int GMToffset;
 const char* GMToffsetKey = "GMTset";
 const char* newSurveyKey = "newSurvey";
-const char* surveyNumKey = "surveyNumKey";
+const char* newSurveyNumKey = "newSurveyNumKey";
+const char* lastSurveyNumKey = "lastSurveyNumKey";
 const char* footcandlesKey = "footcandles";
 
 int surveyNum = 1;
-int surveyIdx = 1;
+int lastSurveyIdx = 1;
 bool footcandles = true;
 bool connected = false;
 int lastPacket_s = 101;
@@ -86,13 +87,13 @@ void setup() {
 
   if (!SD.begin(4, SPI, 4000000)) {  
     M5.Lcd.println("Card failed, or not present");
-    delay(500);
+    delay(200);
     ESP.restart();
   }
 
   if(preferences.getBool(newSurveyKey))
   {
-    surveyNum = preferences.getInt(surveyNumKey);
+    surveyNum = preferences.getInt(newSurveyNumKey);
     newSurvey(SD);
     preferences.putBool(newSurveyKey, false);
   }
@@ -129,7 +130,8 @@ void setup() {
     Serial.println("surveys directory created");
   }  
   
-  resumeSurvey(0);
+  lastSurveyIdx = preferences.getInt(lastSurveyNumKey);
+  resumeSurvey(lastSurveyIdx);
   mainDisplay();
 
 }
@@ -144,7 +146,6 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
 }
 
 void loop() {
-
 
   M5.Lcd.setBrightness(0);
   while (butn == NONE)

@@ -1,4 +1,5 @@
 #define MAIN_DISPLAY_TIMEOUT_S 45
+#define RADIO_TIMEOUT 20
 
 void init_label(int x_pos, int y_pos, int fg_color, int bg_color, float text_size, String show_text)
 {
@@ -92,9 +93,7 @@ static void updateMainDisplay()
   init_label( 10, 155, CYAN, BLACK, 2, batteryLevel);
 
   //Current File Name
-  String currentSurvey = "Log:";
-  currentSurvey.concat(currentLogFileName);
-  init_label(10, 180, WHITE, BLACK, 2, currentSurvey);
+  init_label(10, 180, WHITE, BLACK, 2, currentLogFileName);
 
   //Button Graphics
   init_label( 30, 216, BLACK, BLUE, 3, "    ");
@@ -136,18 +135,28 @@ void mainDisplay()
           if(incoming_p.cmd_recvd)
           {
             int spinner = 0;
-            while(!incoming_p.read_done)
+            int veml_time = millis();
+            bool f_timeout = false;
+            while(!incoming_p.read_done && !f_timeout)
             {
-              //Rx is reading the VEML
-              if(spinner == 0) init_label(10, 120, YELLOW, BLACK, 3, ".");
-              else M5.Lcd.print(".");
-              spinner++;
-              if (spinner >=6)
+              if ((millis() - veml_time) < (RADIO_TIMEOUT*1000))
               {
-                spinner = 0;
-                init_label(10, 120, YELLOW, BLACK, 3, "          ");
-              } 
-              delay(350);
+                //Rx is reading the VEML
+                if(spinner == 0) init_label(10, 120, YELLOW, BLACK, 3, ".");
+                else M5.Lcd.print(".");
+                spinner++;
+                if (spinner >=6)
+                {
+                  spinner = 0;
+                  init_label(10, 120, YELLOW, BLACK, 3, "          ");
+                } 
+                delay(350);
+              }
+              else
+              {
+                f_timeout=true;
+                init_label(10, 120, YELLOW, BLACK, 3, "Timed out.");
+              }
             }
           }
           else Serial.println("Command wasn't received.");
@@ -171,18 +180,29 @@ void mainDisplay()
           if(incoming_p.cmd_recvd)
           {
             int spinner = 0;
-            while(!incoming_p.read_done)
+            int veml_time = millis();
+            bool f_timeout = false;
+            while(!incoming_p.read_done && !f_timeout)
             {
-              //Rx is reading the VEML
-              if(spinner == 0) init_label(10, 120, YELLOW, BLACK, 3, ".");
-              else M5.Lcd.print(".");
-              spinner++;
-              if (spinner >=6)
+              if ((millis() - veml_time) < (RADIO_TIMEOUT*1000))
               {
-                spinner = 0;
-                init_label(10, 120, YELLOW, BLACK, 3, "          ");
+                //Rx is reading the VEML
+                if(spinner == 0) init_label(10, 120, YELLOW, BLACK, 3, ".");
+                else M5.Lcd.print(".");
+                spinner++;
+                if (spinner >=6)
+                {
+                  spinner = 0;
+                  init_label(10, 120, YELLOW, BLACK, 3, "          ");
+                } 
+                delay(350);
+              }
+              else
+              {
+                f_timeout=true;
+                init_label(10, 120, YELLOW, BLACK, 3, "Timed out.");
               } 
-              delay(350);
+              
             }
             if (incoming_p.lux < 65535)
             {

@@ -17,7 +17,7 @@ void newSurvey(fs::FS &fs)
     Serial.println("Error creating file");
   newSurveyFile.close();
   surveyNum++;
-  preferences.putInt(surveyNumKey, surveyNum);
+  preferences.putInt(newSurveyNumKey, surveyNum);
 
 }
 
