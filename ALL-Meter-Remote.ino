@@ -150,7 +150,7 @@ void loop() {
   M5.Lcd.setBrightness(0);
   while (butn == NONE)
   {
-    M5.Power.lightSleep(300000);
+    M5.Power.lightSleep(200000);
     delay(10);//feeds the RTC watch dog
   }
 

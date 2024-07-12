@@ -23,7 +23,7 @@ int updateSurveySelect(fs::FS &fs, int index){
     M5.Lcd.setCursor(0,0);
     M5.Lcd.setTextSize(3);
 
-    File root = fs.open("/");
+    File root = fs.open("/surveys");
     
     File file = root.openNextFile();
     int count = 0;
@@ -49,8 +49,16 @@ void surveySelect(int fileOp)
 {
   int menu_idx = 1;
   int numFiles = updateSurveySelect(SD, menu_idx);
-  if (numFiles == 0) 
+  if (numFiles == 0)
+  {
+    Serial.println("No files here.");
     return;
+  }
+  else
+  {
+    Serial.println("Entering Survey Select...");
+  } 
+    
   int display_time = millis();
   while((millis() - display_time) < (MENU_TIMEOUT_S*1000))
   {
